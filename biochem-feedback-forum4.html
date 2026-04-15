@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Feedback — Biochemistry Reps 2025/26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #2D6A4F;
+    --accent-light: #D8F3DC;
+    --bg: #FAFAF7;
+    --card: #FFFFFF;
+    --text: #1B1B1B;
+    --text-muted: #6B7280;
+    --border: #E5E7EB;
+    --input-bg: #F9FAFB;
+    --danger: #DC2626;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px 16px 60px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header { max-width: 560px; margin: 0 auto 24px; text-align: center; }
+  .badge {
+    display: inline-block; padding: 6px 16px; border-radius: 20px;
+    background: var(--accent-light); color: var(--accent);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.6px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif; font-size: 26px;
+    font-weight: 700; line-height: 1.25; margin-bottom: 4px;
+  }
+  .header .sub { font-size: 13px; color: var(--text-muted); }
+
+  .progress-wrap { max-width: 560px; margin: 0 auto 24px; }
+  .progress-bar { height: 4px; border-radius: 4px; background: var(--border); overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; background: var(--accent); transition: width 0.4s ease; }
+  .progress-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+  .progress-labels span { font-size: 11px; color: var(--text-muted); transition: color 0.3s; }
+  .progress-labels span.active { color: var(--accent); font-weight: 600; }
+
+  .card {
+    max-width: 560px; margin: 0 auto; background: var(--card);
+    border-radius: 16px; border: 1px solid var(--border);
+    padding: 32px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  @media (max-width: 480px) { .card { padding: 24px 18px; } }
+
+  .card h2 { font-family: 'Playfair Display', serif; font-size: 21px; margin-bottom: 4px; }
+  .card .section-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .unit-label { padding: 10px 14px; border-radius: 10px; background: var(--accent-light); margin-bottom: 22px; }
+  .unit-label span { font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.3px; text-transform: uppercase; }
+
+  .divider { height: 1px; background: var(--border); margin: 8px 0 22px; }
+
+  .likert { margin-bottom: 28px; }
+  .likert p { font-size: 15px; font-weight: 500; line-height: 1.5; margin-bottom: 10px; }
+  .likert-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .likert-btn {
+    padding: 8px 14px; border-radius: 20px; border: 1.5px solid var(--border);
+    background: transparent; color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400;
+    cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
+  }
+  .likert-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .likert-btn.selected { border-color: var(--accent); background: var(--accent); color: #fff; font-weight: 600; }
+
+  .text-field { margin-bottom: 28px; }
+  .text-field label { display: block; font-size: 15px; font-weight: 500; line-height: 1.5; margin-bottom: 8px; }
+  .text-field textarea {
+    width: 100%; padding: 12px 16px; border-radius: 12px;
+    border: 1.5px solid var(--border); background: var(--input-bg);
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 14px; resize: vertical; outline: none;
+    transition: border-color 0.2s; min-height: 80px;
+  }
+  .text-field textarea:focus { border-color: var(--accent); }
+  .text-field textarea::placeholder { color: #B0B7BF; }
+
+  .toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .toggle-row .label { font-size: 13px; color: var(--text-muted); min-width: 42px; }
+  .toggle-btn {
+    padding: 7px 18px; border-radius: 20px; border: 1.5px solid var(--border);
+    background: transparent; color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .toggle-btn.selected { border-color: var(--accent); background: var(--accent); color: #fff; font-weight: 600; }
+
+  .welcome-text { font-size: 14.5px; line-height: 1.7; color: var(--text-muted); margin-bottom: 16px; }
+  .welcome-text strong { color: var(--text); }
+
+  .reps-box { padding: 14px 18px; border-radius: 12px; background: var(--accent-light); margin-top: 20px; margin-bottom: 28px; }
+  .reps-box p { font-size: 13.5px; color: var(--accent); font-weight: 500; }
+
+  .nav { display: flex; justify-content: space-between; margin-top: 28px; gap: 12px; }
+  .btn {
+    padding: 10px 24px; border-radius: 10px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; cursor: pointer; transition: all 0.2s; border: none;
+  }
+  .btn-outline { border: 1.5px solid var(--border); background: transparent; color: var(--text-muted); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary { background: var(--accent); color: #fff; font-weight: 600; }
+  .btn-primary:hover { background: #245840; }
+  .btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
+  .footer {
+    text-align: center; font-size: 11px; color: var(--text-muted);
+    margin-top: 20px; opacity: 0.6; max-width: 560px; margin-left: auto; margin-right: auto;
+  }
+
+  .thankyou { display: none; text-align: center; padding: 40px 20px; max-width: 480px; margin: 0 auto; }
+  .thankyou.active { display: block; animation: fadeIn 0.5s ease; }
+  .thankyou .check { font-size: 56px; margin-bottom: 16px; }
+  .thankyou h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--accent); margin-bottom: 12px; }
+  .thankyou p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+  .thankyou .sig { font-size: 14px; margin-top: 20px; }
+
+  .form-wrap { transition: opacity 0.3s; }
+  .form-wrap.hidden { display: none; }
+
+  .sending-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(250,250,247,0.92);
+    z-index: 100; align-items: center; justify-content: center; flex-direction: column;
+  }
+  .sending-overlay.active { display: flex; }
+  .spinner {
+    width: 36px; height: 36px; border: 3px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 0.7s linear infinite; margin-bottom: 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .sending-overlay p { font-size: 14px; color: var(--text-muted); }
+
+  .error-msg {
+    display: none; padding: 12px 16px; border-radius: 10px;
+    background: #FEF2F2; border: 1px solid #FECACA; color: var(--danger);
+    font-size: 13px; margin-bottom: 16px;
+  }
+  .error-msg.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="sending-overlay" id="sendingOverlay">
+  <div class="spinner"></div>
+  <p>Submitting your feedback…</p>
+</div>
+
+<div class="form-wrap" id="formWrap">
+  <div class="header">
+    <div class="badge">Forum 4 · 2025/26</div>
+    <h1>Student Feedback</h1>
+    <p class="sub">School of Biochemistry</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-labels" id="progressLabels"></div>
+  </div>
+
+  <div class="card">
+    <div class="error-msg" id="errorMsg"></div>
+
+    <!-- S0: Welcome -->
+    <div class="section active" data-section="0">
+      <h2>Hey there! 👋</h2>
+      <p class="welcome-text" style="margin-top:16px">Welcome to our <strong>final feedback form</strong> of the year! Thank you for sticking with us through all four.</p>
+      <p class="welcome-text">These forms help us pass on simple, honest feedback to teaching staff at the School of Biochemistry. We read everything and raise it on your behalf.</p>
+      <p class="welcome-text">This form is <strong>anonymous</strong>. Don't hesitate to come talk to us in person if you'd prefer — we're always happy to help.</p>
+      <div class="reps-box"><p>Your reps — Louis, Bilan & Jack</p></div>
+      <p style="font-size:14.5px;font-weight:500;margin-bottom:14px">Before we start — do you take any optional units?</p>
+      <div class="toggle-row">
+        <span class="label">TAB:</span>
+        <button class="toggle-btn" data-toggle="tab" data-val="yes">Yes</button>
+        <button class="toggle-btn" data-toggle="tab" data-val="no">No</button>
+      </div>
+      <div class="toggle-row">
+        <span class="label">TMB:</span>
+        <button class="toggle-btn" data-toggle="tmb" data-val="yes">Yes</button>
+        <button class="toggle-btn" data-toggle="tmb" data-val="no">No</button>
+      </div>
+    </div>
+
+    <!-- S1: AMSF + Research -->
+    <div class="section" data-section="1">
+      <h2>Current Units</h2>
+      <p class="section-sub">Feedback on AMSF and your research unit.</p>
+      <div class="unit-label"><span>AMSF</span></div>
+      <div class="likert" data-name="amsf_engaging"><p>AMSF is engaging and interesting.</p><div class="likert-options"></div></div>
+      <div class="likert" data-name="amsf_workshops"><p>AMSF workshops are useful and helpful.</p><div class="likert-options"></div></div>
+      <div class="likert" data-name="amsf_exams"><p>AMSF prepares us well for its exams.</p><div class="likert-options"></div></div>
+      <div class="text-field"><label>Any comments or suggestions on AMSF?</label><textarea name="amsf_comment" placeholder="Type your thoughts here..."></textarea></div>
+      <div class="divider"></div>
+      <div class="unit-label"><span>Research Unit</span></div>
+      <div class="likert" data-name="research_engaging"><p>My research unit is engaging and interesting.</p><div class="likert-options"></div></div>
+      <div class="likert" data-name="research_organised"><p>My research project/programme is well organised.</p><div class="likert-options"></div></div>
+      <div class="text-field"><label>Any comments on your research unit? (Please mention which unit you're in)</label><textarea name="research_comment" placeholder="Type your thoughts here..."></textarea></div>
+    </div>
+
+    <!-- S2: TAB -->
+    <div class="section" data-section="2">
+      <h2>TAB Feedback</h2>
+      <p class="section-sub">Optional unit feedback.</p>
+      <div class="likert" data-name="tab_engaging"><p>TAB is engaging and interesting.</p><div class="likert-options"></div></div>
+      <div class="likert" data-name="tab_workshops"><p>TAB workshops are useful and helpful.</p><div class="likert-options"></div></div>
+      <div class="likert" data-name="tab_exams"><p>I feel prepared for the TAB exams.</p><div class="likert-options"></div></div>
+      <div class="text-field"><label>Any comments or suggestions on TAB?</label><textarea name="tab_comment" placeholder="Type your thoughts here..."></textarea></div>
+    </div>
+
+    <!-- S3: TMB -->
+    <div class="section" data-section="3">
+      <h2>TMB Feedback</h2>
+      <p class="section-sub">Optional unit feedback.</p>
+      <div class="likert" data-name="tmb_engaging"><p>TMB is engaging and interesting.</p><div class="likert-options"></div></div>
+      <div class="likert" data-name="tmb_workshops"><p>TMB workshops are useful and helpful.</p><div class="likert-options"></div></div>
+      <div class="likert" data-name="tmb_exams"><p>I feel prepared for the TMB exams.</p><div class="likert-options"></div></div>
+      <div class="text-field"><label>Any comments or suggestions on TMB?</label><textarea name="tmb_comment" placeholder="Type your thoughts here..."></textarea></div>
+    </div>
+
+    <!-- S4: General -->
+    <div class="section" data-section="4">
+      <h2>Final Thoughts</h2>
+      <p class="section-sub">Anything else you'd like us to know?</p>
+      <div class="text-field"><label>Any general feedback about your experience this year?</label><textarea name="general_feedback" placeholder="Teaching quality, resources, wellbeing support, anything at all..."></textarea></div>
+      <div class="text-field"><label>Is there anything you'd like your reps to raise specifically?</label><textarea name="rep_raise" placeholder="We'll bring it up anonymously on your behalf."></textarea></div>
+      <div class="likert" data-name="overall_supported"><p>Overall, I feel supported by the School of Biochemistry.</p><div class="likert-options"></div></div>
+      <div class="likert" data-name="forms_useful"><p>The student rep feedback forms have been useful this year.</p><div class="likert-options"></div></div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-outline" id="btnBack" style="visibility:hidden">Back</button>
+      <button class="btn btn-primary" id="btnNext" disabled>Continue</button>
+    </div>
+  </div>
+
+  <p class="footer">Biochemistry Student Reps · University of Bristol · 2025/26</p>
+</div>
+
+<div class="thankyou" id="thankyou">
+  <div class="check">✓</div>
+  <h2>Thank you!</h2>
+  <p>Your feedback has been recorded. We really appreciate you taking the time — it helps us make things better for everyone.</p>
+  <p class="sig">— Louis, Bilan & Jack</p>
+</div>
+
+<script>
+(function() {
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  SETUP: Replace with your Formspree endpoint.           │
+  // │  1. Go to https://formspree.io and sign up (free)       │
+  // │  2. Create a new form                                   │
+  // │  3. Paste the endpoint URL below                        │
+  // │  e.g. "https://formspree.io/f/xPwAbCdE"                │
+  // └─────────────────────────────────────────────────────────┘
+  const FORM_ENDPOINT = "https://formspree.io/f/mojyvbbl";
+
+  const SCALE = ["Strongly Disagree","Disagree","Neutral","Agree","Strongly Agree"];
+  const SECTION_LABELS = ["Welcome","Units","TAB","TMB","Submit"];
+
+  let current = 0, hasTab = null, hasTmb = null;
+  const data = {};
+  const $ = (s, el) => (el||document).querySelector(s);
+  const $$ = (s, el) => [...(el||document).querySelectorAll(s)];
+
+  // Build likert buttons
+  $$('.likert').forEach(row => {
+    const opts = $('.likert-options', row);
+    const name = row.dataset.name;
+    SCALE.forEach((label) => {
+      const btn = document.createElement('button');
+      btn.className = 'likert-btn'; btn.textContent = label; btn.type = 'button';
+      btn.addEventListener('click', () => {
+        data[name] = label;
+        $$('.likert-btn', opts).forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+      opts.appendChild(btn);
+    });
+  });
+
+  // Toggle buttons
+  $$('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.toggle;
+      const val = btn.dataset.val === 'yes';
+      if (group === 'tab') hasTab = val;
+      if (group === 'tmb') hasTmb = val;
+      $$(`[data-toggle="${group}"]`).forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      updateNav();
+    });
+  });
+
+  // Progress labels
+  const labelsEl = $('#progressLabels');
+  SECTION_LABELS.forEach((l, i) => {
+    const s = document.createElement('span');
+    s.textContent = l; s.dataset.idx = i;
+    labelsEl.appendChild(s);
+  });
+
+  function visibleSections() {
+    const vis = [0, 1];
+    if (hasTab) vis.push(2);
+    if (hasTmb) vis.push(3);
+    vis.push(4);
+    return vis;
+  }
+
+  function show(idx) {
+    current = idx;
+    $$('.section').forEach(s => s.classList.remove('active'));
+    $(`.section[data-section="${idx}"]`).classList.add('active');
+    updateNav(); updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress() {
+    const vis = visibleSections();
+    const pos = vis.indexOf(current);
+    const pct = vis.length > 1 ? (pos / (vis.length - 1)) * 100 : 0;
+    $('#progressFill').style.width = pct + '%';
+    $$('#progressLabels span').forEach(s => {
+      const i = parseInt(s.dataset.idx);
+      s.style.display = vis.includes(i) ? '' : 'none';
+      s.classList.toggle('active', vis.indexOf(i) <= pos);
+    });
+  }
+
+  function updateNav() {
+    const vis = visibleSections();
+    const pos = vis.indexOf(current);
+    $('#btnBack').style.visibility = pos > 0 ? 'visible' : 'hidden';
+    if (pos === vis.length - 1) {
+      $('#btnNext').textContent = 'Submit'; $('#btnNext').disabled = false;
+    } else {
+      $('#btnNext').textContent = 'Continue';
+      $('#btnNext').disabled = current === 0 && (hasTab === null || hasTmb === null);
+    }
+  }
+
+  $('#btnBack').addEventListener('click', () => {
+    const vis = visibleSections(); const pos = vis.indexOf(current);
+    if (pos > 0) show(vis[pos - 1]);
+  });
+
+  $('#btnNext').addEventListener('click', () => {
+    const vis = visibleSections(); const pos = vis.indexOf(current);
+    if (pos < vis.length - 1) show(vis[pos + 1]); else submitForm();
+  });
+
+  function gatherData() {
+    $$('.text-field textarea').forEach(ta => {
+      if (ta.value.trim()) data[ta.name] = ta.value.trim();
+    });
+    data._hasTab = hasTab ? 'yes' : 'no';
+    data._hasTmb = hasTmb ? 'yes' : 'no';
+    data._submitted = new Date().toISOString();
+    return data;
+  }
+
+  async function submitForm() {
+    const payload = gatherData();
+    const overlay = $('#sendingOverlay');
+    const errMsg = $('#errorMsg');
+    errMsg.classList.remove('active');
+
+    if (FORM_ENDPOINT === "https://formspree.io/f/mojyvbbl") {
+      console.log("Form data (no endpoint configured):", JSON.stringify(payload, null, 2));
+      showThankYou(); return;
+    }
+
+    overlay.classList.add('active');
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      overlay.classList.remove('active');
+      if (res.ok) { showThankYou(); }
+      else { errMsg.textContent = "Something went wrong. Please try again."; errMsg.classList.add('active'); }
+    } catch (e) {
+      overlay.classList.remove('active');
+      errMsg.textContent = "Couldn't connect. Check your internet and try again.";
+      errMsg.classList.add('active');
+    }
+  }
+
+  function showThankYou() {
+    $('#formWrap').classList.add('hidden');
+    $('#thankyou').classList.add('active');
+  }
+
+  updateProgress(); updateNav();
+})();
+</script>
+</body>
+</html>
